@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         RadioGroup group = findViewById(R.id.rg_main);
         group.setOnCheckedChangeListener(new RgListener());
 
-
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         listVideoFragment = new ListVideoFragment();
         transaction.add(R.id.fl_main, listVideoFragment);
@@ -60,4 +59,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    public void gotoList() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_main, listVideoFragment);
+        transaction.commit();
+    }
 }

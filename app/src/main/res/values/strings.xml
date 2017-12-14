@@ -4,4 +4,6 @@
     <string name="rb_main_list">视频列表</string>
     <string name="rb_main_add">其他</string>
     <string name="addVideo">添加本地视频</string>
+    <string name="changeList">更换列表</string>
+    <string name="changePassword">更换密码</string>
 </resources>

@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.cq.videoproject.ListVideoFragment">
 
-    <ListView
-        android:id="@+id/lv_list"
+    <LinearLayout
+        android:id="@+id/ll_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
 </FrameLayout>

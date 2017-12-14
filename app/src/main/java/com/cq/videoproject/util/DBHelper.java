@@ -6,25 +6,26 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Created by cqueWalt on 2017\10\19 0019.
- * 数据库的什么什么的
+ * Created by Administrator
+ * 数据库的 helper
  */
 
 public class DBHelper extends SQLiteOpenHelper {
 
     private Context context;
+    private static final int VERSION =1;
 
-    public static final String CREAT_TABLE_LIST="create table if not exists video_list ("
-            +"uri text primary key autoincrement, "
-            +"path text, "
-            +"name integer)";
-    public static final String CREAT_TABLE_OWN_LIST ="create table if not exists video_list_own ("
-            +"uri text primary key autoincrement, "
-            +"path text, "
-            +"name integer)";
+    private static final String CREAT_TABLE_LIST="create table if not exists video_list ("
+            +"id INTEGER primary key autoincrement, "
+            +"uri VARCHAR,"
+            +"name VARCHAR)";
+    private static final String CREAT_TABLE_OWN_LIST ="create table if not exists video_list_own ("
+            +"id INTEGER primary key autoincrement, "
+            +"uri VARCHAR,"
+            +"name VARCHAR)";
 
-    public DBHelper(Context context, String name){
-        super(context,name,null,1);
+    DBHelper(Context context, String name){
+        super(context,name,null,VERSION);
         this.context =context ;
     }
 
@@ -38,7 +39,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREAT_TABLE_LIST);
         db.execSQL(CREAT_TABLE_OWN_LIST);
-        Log.i("test"," 创建表成功");
     }
 
     @Override

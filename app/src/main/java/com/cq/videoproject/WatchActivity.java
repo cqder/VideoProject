@@ -53,9 +53,6 @@ public class WatchActivity extends AppCompatActivity {
         linearLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-//                Log.w("test", "x2 = " + x2 + "\tx1 = " + x1 + "\tx2 - x1 = " + (x2 - x1));
-//                Log.w("test","time is "+videoView.getCurrentPosition());
-//                Log.w("test", "y2 = " + y2 + "\ty1 = " + y1 + "\ty2 - y1 = " + (y2 - y1));
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     x1 = motionEvent.getX();
                     y1 = motionEvent.getY();
@@ -82,11 +79,11 @@ public class WatchActivity extends AppCompatActivity {
                     } else if ((x2 - x1) > 0 && Math.abs(x2 - x1) > 50) {
                         //快进
                         int time = videoView.getCurrentPosition();
-                        videoView.seekTo(time+1000);
+                        videoView.seekTo(time + 1000);
                     } else if ((x2 - x1) < 0 && Math.abs(x2 - x1) > 50) {
                         //快退
                         int time = videoView.getCurrentPosition();
-                        videoView.seekTo(time-1000);
+                        videoView.seekTo(time - 1000);
                     }
                 }
                 return true;
