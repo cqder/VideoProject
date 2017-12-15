@@ -1,21 +1,25 @@
-package com.cq.videoproject;
+package com.cq.videoproject.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.cq.videoproject.R;
+
+/**
+ * 观看视频
+ *
+ * @author Administrator
+ */
 public class WatchActivity extends AppCompatActivity {
 
     private VideoView videoView;
@@ -48,6 +52,9 @@ public class WatchActivity extends AppCompatActivity {
         videoView.start();
     }
 
+    /**
+     * 初始化事件的监听
+     */
     @SuppressLint("ClickableViewAccessibility")
     private void initListener() {
         linearLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -88,6 +95,7 @@ public class WatchActivity extends AppCompatActivity {
                 }
                 return true;
             }
+
         });
     }
 

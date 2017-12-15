@@ -1,13 +1,21 @@
 package com.cq.videoproject;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.cq.videoproject.fragment.AddVideoFragment;
+import com.cq.videoproject.fragment.ListVideoFragment;
+
+/**
+ * main 函数
+ *
+ * @author Administrator
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Fragment listVideoFragment, addVideoFragment;
@@ -17,9 +25,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initView();
     }
 
+    /**
+     * 初始化控件监听,以及布局.
+     */
     void initView() {
 
         rb_main_list = findViewById(R.id.rb_main_list);
@@ -34,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-
+    /**
+     * Radio group 点击事件
+     */
     private class RgListener implements RadioGroup.OnCheckedChangeListener {
         @SuppressLint("ResourceAsColor")
         @Override
@@ -59,8 +73,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void gotoList() {
+    /**
+     * 跳转到 ListVideofragment
+     */
+    public void gotoListVideo() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_main, listVideoFragment);
         transaction.commit();

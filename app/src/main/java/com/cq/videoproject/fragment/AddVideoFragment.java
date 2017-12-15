@@ -1,4 +1,4 @@
-package com.cq.videoproject;
+package com.cq.videoproject.fragment;
 
 
 import android.app.Activity;
@@ -27,13 +27,15 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
-import com.cq.videoproject.util.Constant;
+import com.cq.videoproject.MainActivity;
+import com.cq.videoproject.R;
+import com.cq.videoproject.activity.WatchActivity;
+import com.cq.videoproject.constant.Constant;
 import com.cq.videoproject.util.DBUtil;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
+ * 添加视频
+ *
  * @author Administrator
  */
 public class AddVideoFragment extends Fragment {
@@ -43,7 +45,7 @@ public class AddVideoFragment extends Fragment {
     private EditText editText;
     private String password;
     private SharedPreferences preferences;
-    private boolean psdflag=false;
+    private boolean psdflag = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,7 +104,7 @@ public class AddVideoFragment extends Fragment {
                     editText.setVisibility(View.INVISIBLE);
 
                     MainActivity mainActivity = new MainActivity();
-                    mainActivity.gotoList();
+                    mainActivity.gotoListVideo();
                 }
             }
 
@@ -115,13 +117,13 @@ public class AddVideoFragment extends Fragment {
 
     //换密码
     private void changePassword() {
-        final EditText editText1,editText2;
-        editText1=new EditText(mContext);
-        editText2=new EditText(mContext);
+        final EditText editText1, editText2;
+        editText1 = new EditText(mContext);
+        editText2 = new EditText(mContext);
         editText1.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         editText2.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         TableLayout tableLayout = new TableLayout(mContext);
-        final String password = preferences.getString(Constant.PASSWORD,"");
+        final String password = preferences.getString(Constant.PASSWORD, "");
         editText1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -136,26 +138,26 @@ public class AddVideoFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 String etText = String.valueOf(editText1.getText());
-                if (password.equals(etText)){
-                    psdflag=true;
-                }else {
-                    Toast.makeText(mContext,"密码不正确",Toast.LENGTH_SHORT).show();
+                if (password.equals(etText)) {
+                    psdflag = true;
+                } else {
+                    Toast.makeText(mContext, "密码不正确", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        AlertDialog.Builder builder =new AlertDialog.Builder(mContext);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("输入原密码和新密码");
         builder.setView(tableLayout);
         builder.setCancelable(false);
         builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (psdflag){
-                    SharedPreferences.Editor editor=preferences.edit();
-                    editor.putString(Constant.PASSWORD,String.valueOf(editText2.getText()));
+                if (psdflag) {
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(Constant.PASSWORD, String.valueOf(editText2.getText()));
                     editor.commit();
-                    Toast.makeText(mContext,"密码修改成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "密码修改成功", Toast.LENGTH_SHORT).show();
                 }
             }
         });

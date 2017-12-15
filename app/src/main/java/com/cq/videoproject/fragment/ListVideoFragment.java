@@ -1,11 +1,10 @@
-package com.cq.videoproject;
+package com.cq.videoproject.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,13 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
-import com.cq.videoproject.util.Constant;
+import com.cq.videoproject.R;
+import com.cq.videoproject.activity.WatchActivity;
+import com.cq.videoproject.constant.Constant;
 import com.cq.videoproject.util.DBUtil;
 
-
+/**
+ * 视频的列表
+ *
+ * @author Administrator
+ */
 public class ListVideoFragment extends Fragment {
 
     private LinearLayout listView;
@@ -43,14 +46,17 @@ public class ListVideoFragment extends Fragment {
         show();
     }
 
+    /**
+     * 显示视频列表
+     */
     @SuppressLint("ResourceAsColor")
     private void show() {
         listView.removeAllViews();
-        SharedPreferences preferences = mContext.getSharedPreferences("data",Context.MODE_PRIVATE);
+        SharedPreferences preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
         String db = preferences.getString("table", Constant.TABLE);
         final Cursor cursor = DBUtil.query(mContext, db, null, null);
         int count = cursor.getCount();
-        ViewGroup.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         Button[] buttons = new Button[count];
         Log.w("test", "count-> " + count);
