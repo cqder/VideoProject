@@ -23,6 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
             +"uri VARCHAR,"
             +"name VARCHAR)";
 
+
     DBHelper(Context context, String name){
         super(context,name,null,VERSION);
         this.context =context ;

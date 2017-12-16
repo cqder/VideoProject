@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -45,6 +44,7 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_list, container, false);
         listView = view.findViewById(R.id.ll_list);
+        Log.w("test","onCreateView");
         return view;
     }
 
@@ -52,8 +52,8 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        show2();
+        Log.w("test","onActivityCreated");
+        show_2();
     }
 
     /**
@@ -95,7 +95,7 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
     }
 
 
-    public void show2(){
+    public void show_2(){
 
         List<Map<String,String>> listDatas = new ArrayList<>();
 
@@ -128,6 +128,7 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
+        Log.w("test","onAttach");
     }
 
     @Override

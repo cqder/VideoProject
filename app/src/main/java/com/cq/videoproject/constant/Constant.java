@@ -13,6 +13,7 @@ public interface Constant {
      */
     String TABLE = "video_list";
     String TABLE_OWN = "video_list_own";
+    String TABLE_PASS ="pass";
 
     /**
      * 偏好设置中数据的名字

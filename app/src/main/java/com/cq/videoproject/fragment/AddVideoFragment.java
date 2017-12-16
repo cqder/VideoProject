@@ -42,7 +42,7 @@ public class AddVideoFragment extends Fragment {
 
     private Button buttonAddView, buttonChangeList, buttonChangePassword;
     private Context mContext;
-    private EditText editText;
+    private EditText editTextPassword;
     private String password;
     private SharedPreferences preferences;
     private boolean psdflag = false;
@@ -51,17 +51,23 @@ public class AddVideoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_add, container, false);
+        //findview
         buttonAddView = view.findViewById(R.id.bt_add_add);
         buttonChangeList = view.findViewById(R.id.bt_add_change);
         buttonChangePassword = view.findViewById(R.id.bt_add_change_password);
-        editText = view.findViewById(R.id.et_add_psd);
+        editTextPassword = view.findViewById(R.id.et_add_psd);
+        //init SharedPreferences
         preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
+
+        buttonChangePassword.setVisibility(View.INVISIBLE);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         initOnclickLis();
     }
 
@@ -87,7 +93,8 @@ public class AddVideoFragment extends Fragment {
                 changePassword();
             }
         });
-        editText.addTextChangedListener(new TextWatcher() {
+
+        editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 password = preferences.getString(Constant.PASSWORD, "123456");
@@ -95,16 +102,21 @@ public class AddVideoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String etPsd = String.valueOf(editText.getText());
+                String etPsd = String.valueOf(editTextPassword.getText());
                 if (password.equals(etPsd)) {
-
+                    //密码正确
+                    String nowTable = preferences.getString("table", Constant.TABLE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("table", Constant.TABLE_OWN);
-                    editor.apply();
-                    editText.setVisibility(View.INVISIBLE);
-
-                    MainActivity mainActivity = new MainActivity();
-                    mainActivity.gotoListVideo();
+                    if (Constant.TABLE_OWN.equals(nowTable)) {
+                        editor.putString("table", Constant.TABLE);
+                        editor.apply();
+                    } else {
+                        editor.putString("table", Constant.TABLE_OWN);
+                        editor.apply();
+                    }
+                    editTextPassword.setVisibility(View.INVISIBLE);
+                    Toast.makeText(mContext,"成功",Toast.LENGTH_SHORT).show();
+                    editTextPassword.setText("");
                 }
             }
 
@@ -118,12 +130,17 @@ public class AddVideoFragment extends Fragment {
     //换密码
     private void changePassword() {
         final EditText editText1, editText2;
+
+        password = preferences.getString(Constant.PASSWORD, "123456");
+        psdflag = false;
+
+        Log.w("test","changePassword password->"+password);
+
         editText1 = new EditText(mContext);
         editText2 = new EditText(mContext);
         editText1.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         editText2.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         TableLayout tableLayout = new TableLayout(mContext);
-        final String password = preferences.getString(Constant.PASSWORD, "");
         editText1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -139,13 +156,16 @@ public class AddVideoFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 String etText = String.valueOf(editText1.getText());
                 if (password.equals(etText)) {
+                    SharedPreferences.Editor editor=preferences.edit();
+                    editor.putString(Constant.PASSWORD,etText);
+                    editor.apply();
                     psdflag = true;
-                } else {
-                    Toast.makeText(mContext, "密码不正确", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        tableLayout.addView(editText1);
+        tableLayout.addView(editText2);
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("输入原密码和新密码");
         builder.setView(tableLayout);
@@ -154,14 +174,13 @@ public class AddVideoFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (psdflag) {
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(Constant.PASSWORD, String.valueOf(editText2.getText()));
-                    editor.commit();
                     Toast.makeText(mContext, "密码修改成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "密码修改失败", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
+        builder.create().show();
     }
 
     @Override
@@ -173,18 +192,21 @@ public class AddVideoFragment extends Fragment {
                 String uriStr = uri.toString();
                 Log.w("test", "uri-> " + uriStr + "name -> " + name);
 
-                Intent intent = new Intent(getContext(), WatchActivity.class);
-                intent.putExtra("uri", uriStr);
-                startActivity(intent);
 
                 ContentValues values = new ContentValues();
                 values.put("uri", uriStr);
                 values.put("name", name);
                 String table = preferences.getString("table", Constant.TABLE);
-                if (!DBUtil.insert(getContext(), table, values)) {
-                    Toast.makeText(getContext(), "保存路径失败!", Toast.LENGTH_SHORT).show();
+                if (!DBUtil.insert(mContext, table, values)) {
+                    Toast.makeText(mContext, "保存路径失败!", Toast.LENGTH_SHORT).show();
                 }
                 ;
+
+                Intent intent = new Intent(getContext(), WatchActivity.class);
+                intent.putExtra("uri", uriStr);
+                startActivity(intent);
+
+
             }
         }
     }
@@ -208,18 +230,10 @@ public class AddVideoFragment extends Fragment {
     }
 
     /**
-     * 切换按钮点击事件
+     * 切换列表按钮点击事件
      */
     private void changeList() {
-
-        String list = preferences.getString("table", Constant.TABLE);
-
-        if (Constant.TABLE.equals(list)) {
-            //切换
-            editText.setVisibility(View.VISIBLE);
-        } else {
-            return;
-        }
+        editTextPassword.setVisibility(View.VISIBLE);
     }
 
     /**
