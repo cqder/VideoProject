@@ -174,7 +174,7 @@ public class AddVideoFragment extends Fragment {
                 Log.w("test", "uri-> " + uriStr + "name -> " + name);
 
                 Intent intent = new Intent(getContext(), WatchActivity.class);
-                intent.putExtra("path", uriStr);
+                intent.putExtra("uri", uriStr);
                 startActivity(intent);
 
                 ContentValues values = new ContentValues();

@@ -38,7 +38,7 @@ public class WatchActivity extends AppCompatActivity {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
 
-        String path = getIntent().getStringExtra("path");
+        String path = getIntent().getStringExtra("uri");
         Uri uri = Uri.parse(path);
 
         initListener();
