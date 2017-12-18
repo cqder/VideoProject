@@ -192,7 +192,7 @@ public class AddVideoFragment extends Fragment {
                 String name = getFileName(path) ;
                 String uriStr = (uri != null) ? uri.toString() : null;
                 Log.w("test", "uri-> " + uriStr + " name -> " + name);
-                // TODO: 2017\12\18 0018 判断是否重复
+                // TODO: 2017\12\18 0018 判断是否重复 , 再添加
 
                 ContentValues values = new ContentValues();
                 values.put("uri", uriStr);

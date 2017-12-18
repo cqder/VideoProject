@@ -69,15 +69,15 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
                 cursor.moveToPosition(i);
                 Map<String,String> mapData =new HashMap<>();
                 String videoName = cursor.getString(2);
-                String videoPath = cursor.getString(3);
+                String videoUri = cursor.getString(1);
                 mapData.put("name",videoName);
-                mapData.put("path",videoPath);
+                mapData.put("uri",videoUri);
                 listDatas.add(mapData);
-                Log.w("test", "i->" + i + " uri-> " + cursor.getString(1) + " name-> " + cursor.getString(2)+" path-> "+videoPath);
+                Log.w("test", "i->" + i + " uri-> " + cursor.getString(1) + " name-> " + cursor.getString(2)+" path-> "+videoUri);
             }
         }
-        String[] datasStr = { "name","path"} ;
-        int[] items = {R.id.tv_item_name,R.id.tv_item_path};
+        String[] datasStr = { "name","uri"} ;
+        int[] items = {R.id.tv_item_name,R.id.tv_item_uri};
         SimpleAdapter adapter = new SimpleAdapter(mContext,listDatas,R.layout.my_item,datasStr,items);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
@@ -98,17 +98,18 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0){
-                    String uri = (String) ((TextView)view.findViewById(R.id.tv_item_path)).getText();
+                    String uri = (String) ((TextView)view.findViewById(R.id.tv_item_uri)).getText();
                     Intent intent = new Intent(getContext(), WatchActivity.class);
                     intent.putExtra("uri", uri);
                     startActivity(intent);
+                    dialog.dismiss();
                 }else{
-                    //todo 删除
+                    //todo 删除 列表中的记录
 
                 }
             }
         });
-
+        builder.create().show();
 
     }
 }
