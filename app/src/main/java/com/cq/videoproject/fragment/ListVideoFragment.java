@@ -43,7 +43,7 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_list, container, false);
-        listView = view.findViewById(R.id.ll_list);
+        listView = (ListView) view.findViewById(R.id.ll_list);
         Log.w("test","onCreateView");
         return view;
     }

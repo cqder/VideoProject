@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
      */
     void initView() {
 
-        rb_main_list = findViewById(R.id.rb_main_list);
-        rb_main_add = findViewById(R.id.rb_mian_add);
+        rb_main_list = (RadioButton) findViewById(R.id.rb_main_list);
+        rb_main_add = (RadioButton) findViewById(R.id.rb_mian_add);
 
-        RadioGroup group = findViewById(R.id.rg_main);
+        RadioGroup group = (RadioGroup) findViewById(R.id.rg_main);
         group.setOnCheckedChangeListener(new RgListener());
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

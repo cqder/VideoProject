@@ -52,10 +52,10 @@ public class AddVideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_add, container, false);
         //findview
-        buttonAddView = view.findViewById(R.id.bt_add_add);
-        buttonChangeList = view.findViewById(R.id.bt_add_change);
-        buttonChangePassword = view.findViewById(R.id.bt_add_change_password);
-        editTextPassword = view.findViewById(R.id.et_add_psd);
+        buttonAddView = (Button) view.findViewById(R.id.bt_add_add);
+        buttonChangeList = (Button) view.findViewById(R.id.bt_add_change);
+        buttonChangePassword = (Button) view.findViewById(R.id.bt_add_change_password);
+        editTextPassword = (EditText) view.findViewById(R.id.et_add_psd);
         //init SharedPreferences
         preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
 
@@ -127,7 +127,10 @@ public class AddVideoFragment extends Fragment {
         });
     }
 
-    //换密码
+    /**
+     * 换密码
+     *
+     */
     private void changePassword() {
         final EditText editText1, editText2;
 

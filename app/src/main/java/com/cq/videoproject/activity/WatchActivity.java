@@ -33,8 +33,8 @@ public class WatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch);
 
-        videoView = findViewById(R.id.vv_watch);
-        linearLayout = findViewById(R.id.ll_watch);
+        videoView = (VideoView) findViewById(R.id.vv_watch);
+        linearLayout = (LinearLayout) findViewById(R.id.ll_watch);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
 
