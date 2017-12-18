@@ -204,7 +204,7 @@ public class AddVideoFragment extends Fragment {
                 Cursor cursor = DBUtil.query(mContext,table,"uri=?",new String[]{uriStr});
                 if (cursor != null ){
                     if (!cursor.moveToNext()){
-                        Log.w("test","-------nul--l"+cursor);
+
                         if (!DBUtil.insert(mContext, table, values)) {
                             Toast.makeText(mContext, "保存路径失败!", Toast.LENGTH_SHORT).show();
                         }

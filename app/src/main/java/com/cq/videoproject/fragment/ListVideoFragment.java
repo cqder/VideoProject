@@ -110,15 +110,15 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
                     //todo 删除 列表中的记录
                     String table = preferences.getString("table",Constant.TABLE);
                     Cursor cursor = DBUtil.query(mContext,table,"uri=?",new String[]{uri});
-                    if (cursor!=null){
-
+                    if (cursor!=null ){
+                        if (DBUtil.delete(mContext,table,"uri=?",new String[]{uri})){
+                            Toast.makeText(mContext,"删除成功",Toast.LENGTH_SHORT).show();
+                            showList();
+                        }
+                    }else{
+                        Toast.makeText(mContext,"暂时不能删除",Toast.LENGTH_SHORT).show();
                     }
-
-
-
-
-
-                    Toast.makeText(mContext,"暂时不能删除",Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
             }
         });
