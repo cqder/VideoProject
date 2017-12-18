@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         rb_main_list = (RadioButton) findViewById(R.id.rb_main_list);
         rb_main_add = (RadioButton) findViewById(R.id.rb_mian_add);
-
+        rb_main_list.setChecked(true);
         RadioGroup group = (RadioGroup) findViewById(R.id.rg_main);
         group.setOnCheckedChangeListener(new RgListener());
 

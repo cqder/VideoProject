@@ -22,15 +22,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cq.videoproject.R;
 import com.cq.videoproject.activity.WatchActivity;
 import com.cq.videoproject.constant.Constant;
 import com.cq.videoproject.util.DBUtil;
+
+import org.w3c.dom.Text;
 
 /**
  * 添加视频
@@ -39,9 +43,10 @@ import com.cq.videoproject.util.DBUtil;
  */
 public class AddVideoFragment extends Fragment {
 
-    private Button buttonAddView, buttonChangeList, buttonChangePassword;
     private Context mContext;
+    private Button buttonAddView, buttonChangeList, buttonChangePassword;
     private EditText editTextPassword;
+    private TextView textViewListName;
     private String password;
     private SharedPreferences preferences;
     private boolean psdflag = false;
@@ -54,8 +59,12 @@ public class AddVideoFragment extends Fragment {
         buttonChangeList = (Button) view.findViewById(R.id.bt_add_change);
         buttonChangePassword = (Button) view.findViewById(R.id.bt_add_change_password);
         editTextPassword = (EditText) view.findViewById(R.id.et_add_psd);
+        textViewListName = (TextView) view.findViewById(R.id.tv_add_list_kind);
 
         preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
+
+        changeListName();
+
 
         buttonChangePassword.setVisibility(View.INVISIBLE);
 
@@ -92,10 +101,12 @@ public class AddVideoFragment extends Fragment {
             }
         });
 
+        //点击更换列表
         editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 password = preferences.getString(Constant.PASSWORD, "123456");
+
             }
 
             @Override
@@ -115,6 +126,12 @@ public class AddVideoFragment extends Fragment {
                     editTextPassword.setVisibility(View.INVISIBLE);
                     Toast.makeText(mContext, "成功", Toast.LENGTH_SHORT).show();
                     editTextPassword.setText("");
+
+                    //隐藏键盘
+                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editTextPassword.getWindowToken(), 0) ;
+
+                    changeListName();
                 }
             }
 
@@ -241,6 +258,8 @@ public class AddVideoFragment extends Fragment {
      * 切换列表按钮点击事件
      */
     private void changeList() {
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         editTextPassword.setVisibility(View.VISIBLE);
     }
 
@@ -262,6 +281,17 @@ public class AddVideoFragment extends Fragment {
         return path;
     }
 
+    /**
+     * 更新textView文本
+     */
+    private void changeListName(){
+        String table = preferences.getString("table",Constant.TABLE);
+        if (Constant.TABLE.equals(table)){
+            textViewListName.setText(R.string.list_name_1);
+        }else if (Constant.TABLE_OWN.equals(table)){
+            textViewListName.setText(R.string.list_name_2);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {

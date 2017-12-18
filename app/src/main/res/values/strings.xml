@@ -1,13 +1,17 @@
 <resources>
-    <string name="app_name">VideoProject</string>
+    <string name="app_name">简单视频播放器</string>
 
+    <!--控件文本-->
     <string name="rb_main_list">视频列表</string>
     <string name="rb_main_add">其他</string>
-    <string name="addVideo">添加本地视频</string>
+    <string name="addVideo">添加视频到列表</string>
     <string name="changeList">更换列表</string>
     <string name="changePassword">更换密码</string>
+    <string name="ask_password">请输入密码</string>
+    <string name="list_name_1">普通列表</string>
+    <string name="list_name_2">隐私列表</string>
 
-
+    <!--imageButton 控件 提示文本-->
     <string name="pause">暂停</string>
     <string name="back">回退</string>
     <string name="forward">快进</string>

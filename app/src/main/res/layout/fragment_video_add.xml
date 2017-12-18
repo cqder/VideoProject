@@ -1,4 +1,5 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,19 +9,53 @@
 
     <Button
         android:id="@+id/bt_add_add"
-        android:text="@string/addVideo" />
+        android:layout_below="@+id/et_add_psd"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/drawable_nice_button"
+        android:text="@string/addVideo"
+        app:layout_heightPercent="10%"
+        app:layout_marginTopPercent="30%"
+        app:layout_widthPercent="50%" />
 
     <Button
         android:id="@+id/bt_add_change"
-        android:text="@string/changeList" />
+        android:layout_alignLeft="@+id/bt_add_add"
+        android:layout_alignStart="@+id/bt_add_add"
+        android:layout_below="@+id/bt_add_add"
+        android:background="@drawable/drawable_nice_button"
+        android:text="@string/changeList"
+        app:layout_heightPercent="10%"
+        app:layout_marginTopPercent="3%"
+        app:layout_widthPercent="50%" />
 
     <Button
         android:id="@+id/bt_add_change_password"
-        android:text="@string/changePassword" />
+        android:layout_alignLeft="@+id/bt_add_change"
+        android:layout_alignStart="@+id/bt_add_change"
+        android:layout_below="@+id/bt_add_change"
+        android:background="@drawable/drawable_nice_button"
+        android:text="@string/changePassword"
+        app:layout_heightPercent="10%"
+        app:layout_marginTopPercent="3%"
+        app:layout_widthPercent="50%" />
 
     <EditText
         android:id="@+id/et_add_psd"
+        android:gravity="center"
+        android:hint="@string/ask_password"
         android:inputType="numberPassword"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%" />
 
-</TableLayout>
+    <TextView
+        android:id="@+id/tv_add_list_kind"
+        android:text="@string/list_name_1"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%"
+        android:gravity="center"
+        android:layout_below="@+id/et_add_psd"
+
+        />
+
+</android.support.percent.PercentRelativeLayout>

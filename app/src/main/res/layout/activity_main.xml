@@ -28,11 +28,13 @@
 
         <RadioButton
             android:id="@+id/rb_main_list"
+            android:drawableTop="@drawable/drawable_list"
             android:text="@string/rb_main_list"
             style="@style/rb_main" />
 
         <RadioButton
             android:id="@+id/rb_mian_add"
+            android:drawableTop="@drawable/drawable_add"
             android:text="@string/rb_main_add"
             style="@style/rb_main"  />
 
