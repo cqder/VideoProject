@@ -17,10 +17,12 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREAT_TABLE_LIST="create table if not exists video_list ("
             +"id INTEGER primary key autoincrement, "
             +"uri VARCHAR,"
+            +"path VARCHAR,"
             +"name VARCHAR)";
     private static final String CREAT_TABLE_OWN_LIST ="create table if not exists video_list_own ("
             +"id INTEGER primary key autoincrement, "
             +"uri VARCHAR,"
+            +"path VARCHAR,"
             +"name VARCHAR)";
 
 

@@ -36,4 +36,11 @@ public class ExampleUnitTest {
         }
         System.out.println("find-> "+name[name.length-1]);
     }
+
+    @Test
+    public void test (){
+        int a = 45648;
+        int b = 456480;
+        System.out.println("---------------------"+b/a);
+    }
 }

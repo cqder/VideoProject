@@ -51,12 +51,11 @@ public class AddVideoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_add, container, false);
-        //findview
         buttonAddView = (Button) view.findViewById(R.id.bt_add_add);
         buttonChangeList = (Button) view.findViewById(R.id.bt_add_change);
         buttonChangePassword = (Button) view.findViewById(R.id.bt_add_change_password);
         editTextPassword = (EditText) view.findViewById(R.id.et_add_psd);
-        //init SharedPreferences
+
         preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
 
         buttonChangePassword.setVisibility(View.INVISIBLE);
@@ -221,6 +220,7 @@ public class AddVideoFragment extends Fragment {
      * @return 视频的名字
      */
     String getFileName(String path) {
+        Log.w("test","path -> "+path);
         String[] test = path.split("\\/");
         return test[test.length - 1];
     }

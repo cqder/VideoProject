@@ -3,6 +3,7 @@ package com.cq.videoproject;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,5 +23,12 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.cq.videoproject", appContext.getPackageName());
+    }
+
+    @Test
+    public void test(){
+        int a = 45648;
+        int b = 456455;
+        System.out.println("---------------------"+a/b);
     }
 }

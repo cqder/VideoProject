@@ -6,4 +6,9 @@
     <string name="addVideo">添加本地视频</string>
     <string name="changeList">更换列表</string>
     <string name="changePassword">更换密码</string>
+
+
+    <string name="pause">暂停</string>
+    <string name="back">回退</string>
+    <string name="forward">快进</string>
 </resources>

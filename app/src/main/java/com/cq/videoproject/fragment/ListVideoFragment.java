@@ -1,6 +1,5 @@
 package com.cq.videoproject.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -53,49 +50,13 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.w("test","onActivityCreated");
-        show_2();
+        showList();
     }
 
     /**
      * 显示视频列表
      */
-    @SuppressLint("ResourceAsColor")
-    private void show() {
-        listView.removeAllViews();
-        SharedPreferences preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
-        String db = preferences.getString("table", Constant.TABLE);
-        final Cursor cursor = DBUtil.query(mContext, db, null, null);
-        int count = cursor.getCount();
-        ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        Button[] buttons = new Button[count];
-        Log.w("test", "count-> " + count);
-        if (cursor.moveToFirst()) {
-            for (int i = 0; i < count; i++) {
-                cursor.moveToPosition(i);
-
-                buttons[i] = new Button(mContext);
-                buttons[i].setLayoutParams(params);
-                // id = 0 uri = 1  name = 2
-                buttons[i].setText(cursor.getString(2));
-                buttons[i].setBackgroundColor(R.color.white);
-                buttons[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), WatchActivity.class);
-                        intent.putExtra("path", cursor.getString(1));
-                        startActivity(intent);
-                    }
-                });
-                listView.addView(buttons[i]);
-                Log.w("test", "i->" + i + " uri-> " + cursor.getString(1) + " name-> " + cursor.getString(2));
-            }
-        }
-        Log.w("test", "data-> ");
-    }
-
-
-    public void show_2(){
+    public void showList(){
 
         List<Map<String,String>> listDatas = new ArrayList<>();
 
