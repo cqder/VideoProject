@@ -192,15 +192,23 @@ public class AddVideoFragment extends Fragment {
                 String name = getFileName(path) ;
                 String uriStr = (uri != null) ? uri.toString() : null;
                 Log.w("test", "uri-> " + uriStr + " name -> " + name);
-                // TODO: 2017\12\18 0018 判断是否重复 , 再添加
+                //判断是否重复 , 再添加
 
                 ContentValues values = new ContentValues();
+
                 values.put("uri", uriStr);
                 values.put("name", name);
                 values.put("path",path);
+
                 String table = preferences.getString("table", Constant.TABLE);
-                if (!DBUtil.insert(mContext, table, values)) {
-                    Toast.makeText(mContext, "保存路径失败!", Toast.LENGTH_SHORT).show();
+                Cursor cursor = DBUtil.query(mContext,table,"uri=?",new String[]{uriStr});
+                if (cursor != null ){
+                    if (!cursor.moveToNext()){
+                        Log.w("test","-------nul--l"+cursor);
+                        if (!DBUtil.insert(mContext, table, values)) {
+                            Toast.makeText(mContext, "保存路径失败!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
 
                 Intent intent = new Intent(getContext(), WatchActivity.class);

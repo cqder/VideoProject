@@ -1,5 +1,6 @@
 package com.cq.videoproject.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cq.videoproject.R;
 import com.cq.videoproject.activity.WatchActivity;
@@ -37,6 +39,7 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
 
     private ListView listView;
     private Context mContext;
+    private SharedPreferences preferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +63,7 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
 
         List<Map<String,String>> listDatas = new ArrayList<>();
 
-        SharedPreferences preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
+        preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
         String db = preferences.getString("table", Constant.TABLE);
         final Cursor cursor = DBUtil.query(mContext, db, null, null);
         int count = cursor.getCount();
@@ -97,19 +100,22 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
         builder.setSingleChoiceItems(new String[]{"打开", "删除"}, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String uri = (String) ((TextView)view.findViewById(R.id.tv_item_uri)).getText();
                 if (which == 0){
-                    String uri = (String) ((TextView)view.findViewById(R.id.tv_item_uri)).getText();
                     Intent intent = new Intent(getContext(), WatchActivity.class);
                     intent.putExtra("uri", uri);
                     startActivity(intent);
                     dialog.dismiss();
                 }else{
                     //todo 删除 列表中的记录
-
+                    String table = preferences.getString("table",Constant.TABLE);
+                    Cursor cursor = DBUtil.query(mContext,table,"uri=?",new String[]{uri});
+                    Toast.makeText(mContext,"暂时不能删除",Toast.LENGTH_SHORT).show();
                 }
             }
         });
         builder.create().show();
 
     }
+
 }
