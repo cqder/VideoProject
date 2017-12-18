@@ -1,6 +1,8 @@
 package com.cq.videoproject.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -41,7 +43,6 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_list, container, false);
         listView = (ListView) view.findViewById(R.id.ll_list);
-        Log.w("test","onCreateView");
         return view;
     }
 
@@ -49,7 +50,6 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.w("test","onActivityCreated");
         showList();
     }
 
@@ -64,22 +64,20 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
         String db = preferences.getString("table", Constant.TABLE);
         final Cursor cursor = DBUtil.query(mContext, db, null, null);
         int count = cursor.getCount();
-
         if (cursor.moveToFirst()){
             for (int i = 0 ; i < count ; i++){
                 cursor.moveToPosition(i);
                 Map<String,String> mapData =new HashMap<>();
                 String videoName = cursor.getString(2);
-                String videoUriStr = cursor.getString(1);
+                String videoPath = cursor.getString(3);
                 mapData.put("name",videoName);
-                mapData.put("uri",videoUriStr);
+                mapData.put("path",videoPath);
                 listDatas.add(mapData);
-
-                Log.w("test", "i->" + i + " uri-> " + cursor.getString(1) + " name-> " + cursor.getString(2));
+                Log.w("test", "i->" + i + " uri-> " + cursor.getString(1) + " name-> " + cursor.getString(2)+" path-> "+videoPath);
             }
         }
-        String[] datasStr = { "name","uri"} ;
-        int[] items = {R.id.tv_item_name,R.id.tv_item_uri};
+        String[] datasStr = { "name","path"} ;
+        int[] items = {R.id.tv_item_name,R.id.tv_item_path};
         SimpleAdapter adapter = new SimpleAdapter(mContext,listDatas,R.layout.my_item,datasStr,items);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
@@ -89,14 +87,28 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
-        Log.w("test","onAttach");
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-        String uri = (String) ((TextView)view.findViewById(R.id.tv_item_uri)).getText();
-        Intent intent = new Intent(getContext(), WatchActivity.class);
-        intent.putExtra("uri", uri);
-        startActivity(intent);
+    public void onItemClick(AdapterView<?> parent, final View view, int i, long l) {
+
+        AlertDialog.Builder builder =new AlertDialog.Builder(mContext);
+        builder.setTitle("选择操作");
+        builder.setSingleChoiceItems(new String[]{"打开", "删除"}, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0){
+                    String uri = (String) ((TextView)view.findViewById(R.id.tv_item_path)).getText();
+                    Intent intent = new Intent(getContext(), WatchActivity.class);
+                    intent.putExtra("uri", uri);
+                    startActivity(intent);
+                }else{
+                    //todo 删除
+
+                }
+            }
+        });
+
+
     }
 }

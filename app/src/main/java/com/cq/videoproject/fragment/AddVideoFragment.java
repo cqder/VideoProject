@@ -27,7 +27,6 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
-import com.cq.videoproject.MainActivity;
 import com.cq.videoproject.R;
 import com.cq.videoproject.activity.WatchActivity;
 import com.cq.videoproject.constant.Constant;
@@ -114,7 +113,7 @@ public class AddVideoFragment extends Fragment {
                         editor.apply();
                     }
                     editTextPassword.setVisibility(View.INVISIBLE);
-                    Toast.makeText(mContext,"成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "成功", Toast.LENGTH_SHORT).show();
                     editTextPassword.setText("");
                 }
             }
@@ -128,7 +127,6 @@ public class AddVideoFragment extends Fragment {
 
     /**
      * 换密码
-     *
      */
     private void changePassword() {
         final EditText editText1, editText2;
@@ -136,7 +134,7 @@ public class AddVideoFragment extends Fragment {
         password = preferences.getString(Constant.PASSWORD, "123456");
         psdflag = false;
 
-        Log.w("test","changePassword password->"+password);
+        Log.w("test", "changePassword password->" + password);
 
         editText1 = new EditText(mContext);
         editText2 = new EditText(mContext);
@@ -158,8 +156,8 @@ public class AddVideoFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 String etText = String.valueOf(editText1.getText());
                 if (password.equals(etText)) {
-                    SharedPreferences.Editor editor=preferences.edit();
-                    editor.putString(Constant.PASSWORD,etText);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(Constant.PASSWORD, etText);
                     editor.apply();
                     psdflag = true;
                 }
@@ -190,25 +188,24 @@ public class AddVideoFragment extends Fragment {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 0) {
                 Uri uri = data.getData();
-                String name = getFileName(getPathFromUri(uri));
-                String uriStr = uri.toString();
-                Log.w("test", "uri-> " + uriStr + "name -> " + name);
-
+                String path = getPathFromUri(uri);
+                String name = getFileName(path) ;
+                String uriStr = (uri != null) ? uri.toString() : null;
+                Log.w("test", "uri-> " + uriStr + " name -> " + name);
+                // TODO: 2017\12\18 0018 判断是否重复
 
                 ContentValues values = new ContentValues();
                 values.put("uri", uriStr);
                 values.put("name", name);
+                values.put("path",path);
                 String table = preferences.getString("table", Constant.TABLE);
                 if (!DBUtil.insert(mContext, table, values)) {
                     Toast.makeText(mContext, "保存路径失败!", Toast.LENGTH_SHORT).show();
                 }
-                ;
 
                 Intent intent = new Intent(getContext(), WatchActivity.class);
                 intent.putExtra("uri", uriStr);
                 startActivity(intent);
-
-
             }
         }
     }
@@ -220,7 +217,7 @@ public class AddVideoFragment extends Fragment {
      * @return 视频的名字
      */
     String getFileName(String path) {
-        Log.w("test","path -> "+path);
+        Log.w("test", "path -> " + path);
         String[] test = path.split("\\/");
         return test[test.length - 1];
     }
