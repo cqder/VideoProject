@@ -1,6 +1,5 @@
 package com.cq.videoproject.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,7 +32,7 @@ import java.util.Map;
 /**
  * 视频的列表
  *
- * @author Administrator
+ * @author cqder 283094846@qq.com
  */
 public class ListVideoFragment extends Fragment implements AdapterView.OnItemClickListener{
 
@@ -44,6 +43,7 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mContext = getContext();
         View view = inflater.inflate(R.layout.fragment_video_list, container, false);
         listView = (ListView) view.findViewById(R.id.ll_list);
         return view;
@@ -61,35 +61,32 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
      */
     public void showList(){
 
-        List<Map<String,String>> listDatas = new ArrayList<>();
+        List<Map<String,String>> mapList = new ArrayList<>();
 
         preferences = mContext.getSharedPreferences("data", Context.MODE_PRIVATE);
         String db = preferences.getString("table", Constant.TABLE);
         final Cursor cursor = DBUtil.query(mContext, db, null, null);
+        if (cursor == null){
+            return ;
+        }
         int count = cursor.getCount();
         if (cursor.moveToFirst()){
             for (int i = 0 ; i < count ; i++){
                 cursor.moveToPosition(i);
-                Map<String,String> mapData =new HashMap<>();
+                Map<String,String> mapData =new HashMap<>(2);
                 String videoName = cursor.getString(2);
                 String videoUri = cursor.getString(1);
                 mapData.put("name",videoName);
                 mapData.put("uri",videoUri);
-                listDatas.add(mapData);
+                mapList.add(mapData);
                 Log.w("test", "i->" + i + " uri-> " + cursor.getString(1) + " name-> " + cursor.getString(2)+" path-> "+videoUri);
             }
         }
-        String[] datasStr = { "name","uri"} ;
+        String[] dataStr = { "name","uri"} ;
         int[] items = {R.id.tv_item_name,R.id.tv_item_uri};
-        SimpleAdapter adapter = new SimpleAdapter(mContext,listDatas,R.layout.my_item,datasStr,items);
+        SimpleAdapter adapter = new SimpleAdapter(mContext,mapList,R.layout.my_item,dataStr,items);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.mContext = context;
     }
 
     @Override
@@ -107,16 +104,17 @@ public class ListVideoFragment extends Fragment implements AdapterView.OnItemCli
                     startActivity(intent);
                     dialog.dismiss();
                 }else{
-                    //todo 删除 列表中的记录
+                    // 删除列表中的记录
                     String table = preferences.getString("table",Constant.TABLE);
                     Cursor cursor = DBUtil.query(mContext,table,"uri=?",new String[]{uri});
                     if (cursor!=null ){
-                        if (DBUtil.delete(mContext,table,"uri=?",new String[]{uri})){
+                        String where = "uri=?";
+                        if (DBUtil.delete(mContext,table,where,new String[]{uri})){
                             Toast.makeText(mContext,"删除成功",Toast.LENGTH_SHORT).show();
                             showList();
                         }
                     }else{
-                        Toast.makeText(mContext,"暂时不能删除",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,"删除失败",Toast.LENGTH_SHORT).show();
                     }
                     dialog.dismiss();
                 }
