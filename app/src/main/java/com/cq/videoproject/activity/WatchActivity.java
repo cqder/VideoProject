@@ -2,6 +2,7 @@ package com.cq.videoproject.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class WatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.WatchTheme);
         setContentView(R.layout.activity_watch);
         initView();
         initListener();
